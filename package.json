@@ -1,0 +1,25 @@
+{
+  "name": "store-global",
+  "version": "0.0.1",
+  "description": "Store data globally in your app. Generic library, no dependencies.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scttdavs/store-global.git"
+  },
+  "keywords": [
+    "store",
+    "js",
+    "global",
+    "store"
+  ],
+  "author": "Scott Davis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/scttdavs/store-global/issues"
+  },
+  "homepage": "https://github.com/scttdavs/store-global#readme"
+}
