@@ -67,6 +67,22 @@ describe('createStore', () => {
             
             expect(callback).toHaveBeenCalledTimes(1)
         })
+
+        it('returns a function to unsubscribe', () => {
+            const { state, onChange, clear } = createStore({ foo: 1 })
+            expect(state.foo).toBe(1)
+    
+            const callback = jest.fn()
+            const unClear = onChange('foo', callback)
+    
+            clear()
+
+            unClear()
+
+            clear()
+            
+            expect(callback).toHaveBeenCalledTimes(1)
+        })
     })
 
     describe('get', () => {
@@ -170,6 +186,23 @@ describe('createStore', () => {
             on('clear', callback)
 
             expect(state.bar).toBeDefined()
+
+            clear()
+
+            expect(state.bar).toBeUndefined()
+            expect(callback).toHaveBeenCalledTimes(1)
+        })
+
+        it('returns a function to unsubscribe', () => {
+            const { state, clear, on } = createStore({ foo: true, bar: 5 });
+            const callback = jest.fn();
+            const unClear = on('clear', callback)
+
+            expect(state.bar).toBeDefined()
+
+            clear()
+
+            unClear()
 
             clear()
 

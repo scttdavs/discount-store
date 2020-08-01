@@ -1,6 +1,6 @@
 export const createStore = initialState => {
     let state = {};
-    const callbacks = {
+    let callbacks = {
         get: [],
         set: [],
         reset: [],
@@ -49,7 +49,7 @@ export const createStore = initialState => {
 
         // return function to unsubscribe
         return () => {
-            callbacks[eventName].filter(cb => cb !== callback)
+            callbacks[eventName] = callbacks[eventName].filter(cb => cb !== callback)
         }
     };
     const onChange = (propName, callback) => {
