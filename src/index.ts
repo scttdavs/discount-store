@@ -1,13 +1,13 @@
-export const createStore = initialState => {
+export const createStore = (initialState: object) => {
     let state = {};
-    let callbacks = {
+    let callbacks: Callbacks = {
         get: [],
         set: [],
         reset: [],
         clear: []
     };
 
-    const setState = (obj) => {
+    const setState = (obj: object) => {
         Object.keys(obj).forEach(key => {
             let value = obj[key];
             Object.defineProperty(state, key, {
@@ -29,22 +29,19 @@ export const createStore = initialState => {
     }
     setState(initialState)
 
-    const clear = (skipCallbacks) => {
+    const clear = () => {
         Object.keys(state).forEach(key => {
             delete state[key]
         })
-        if (!skipCallbacks) {
-            callbacks.clear.forEach(callback => callback())
-        }
+        callbacks.clear.forEach(callback => callback())
     }
     const reset = () => {
-        clear(true)
         setState(initialState)
         callbacks.reset.forEach(callback => callback())
     }
     const get = key => state[key]
     const set = (key, value) => { return state[key] = value }
-    const on = (eventName, callback) => {
+    const on = (eventName: string, callback) => {
         callbacks[eventName].push(callback);
 
         // return function to unsubscribe
@@ -52,8 +49,8 @@ export const createStore = initialState => {
             callbacks[eventName] = callbacks[eventName].filter(cb => cb !== callback)
         }
     };
-    const onChange = (propName, callback) => {
-        const unSet = on('set', (key, newValue) => {
+    const onChange = (propName: string, callback: (value: any) => {}) => {
+        const unSet = on('set', (key: string, newValue) => {
             if (key === propName) callback(newValue)
         })
         const unCallback = () => callback(initialState[propName])
@@ -68,6 +65,7 @@ export const createStore = initialState => {
         }
     }
     
+    // TODO throw if they try to set a new field
 
     const use = config => {
         ['get', 'set', 'reset', 'clear'].forEach(eventName => {
