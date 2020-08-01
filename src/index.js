@@ -26,5 +26,7 @@ export const createStore = obj => {
         })
     })
 
+    // TODO dispose, get, set, reset, on
+
     return { state, onChange };
 }

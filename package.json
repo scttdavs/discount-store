@@ -2,9 +2,9 @@
   "name": "store-global",
   "version": "0.0.1",
   "description": "Store data globally in your app. Generic library, no dependencies.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/scttdavs/store-global/issues"
   },
-  "homepage": "https://github.com/scttdavs/store-global#readme"
+  "homepage": "https://github.com/scttdavs/store-global#readme",
+  "devDependencies": {
+    "jest": "^26.2.2"
+  }
 }
