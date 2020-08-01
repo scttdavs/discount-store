@@ -13,7 +13,10 @@ export const createStore = initialState => {
             Object.defineProperty(state, key, {
                 enumerable: true,
                 configurable: true,
-                get() { return value },
+                get() {
+                    callbacks.get.forEach(callback => callback(value))
+                    return value
+                },
                 set(newValue) {
                     if (newValue !== value) {
                         value = newValue;
@@ -68,7 +71,7 @@ export const createStore = initialState => {
 
     const use = config => {
         ['get', 'set', 'reset'].forEach(eventName => {
-            onChange(eventName, config[eventName])
+            on(eventName, config[eventName])
         });
     }
 
@@ -79,6 +82,7 @@ export const createStore = initialState => {
         get,
         set,
         use,
+        on,
         onChange
     };
 }

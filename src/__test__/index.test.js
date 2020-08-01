@@ -117,9 +117,22 @@ describe('createStore', () => {
         })
     })
 
+    describe('on', () => {
+        it('fires a callback when a value is gotten', () => {
+            const { state, get, on } = createStore({ foo: true, bar: 5 });
+            const callback = jest.fn();
+
+            on('get', callback)
+            expect(get('foo')).toBeTruthy()
+            expect(state.bar).toBe(5)
+
+            expect(callback).toHaveBeenCalledTimes(2)
+        })
+    })
+
     describe('use', () => {
         it('uses a config to set onChange listeners', () => {
-
+            const { state, reset } = createStore({ foo: true, bar: 5 });
         })
     })
 });
