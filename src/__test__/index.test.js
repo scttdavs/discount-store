@@ -128,11 +128,76 @@ describe('createStore', () => {
 
             expect(callback).toHaveBeenCalledTimes(2)
         })
+
+        it('fires a callback when a value is set', () => {
+            const { state, set, on } = createStore({ foo: true, bar: 5 });
+            const callback = jest.fn();
+            on('set', callback)
+
+            expect(state.foo).toBeTruthy()
+            expect(state.bar).toBe(5)
+
+            set('foo', false);
+            state.bar = 10;
+            
+            expect(state.foo).toBeFalsy()
+            expect(state.bar).toBe(10)
+
+            expect(callback).toHaveBeenCalledTimes(2)
+        })
+
+        it('fires a callback when the store is reset', () => {
+            const { state, reset, on } = createStore({ foo: true, bar: 5 });
+            const callback = jest.fn();
+            on('reset', callback)
+
+            expect(state.bar).toBe(5)
+
+            state.bar = 10;
+            
+            expect(state.bar).toBe(10)
+
+            reset()
+
+            expect(state.bar).toBe(5)
+
+            expect(callback).toHaveBeenCalledTimes(1)
+        })
+
+        it('fires a callback when the store is cleared', () => {
+            const { state, clear, on } = createStore({ foo: true, bar: 5 });
+            const callback = jest.fn();
+            on('clear', callback)
+
+            expect(state.bar).toBeDefined()
+
+            clear()
+
+            expect(state.bar).toBeUndefined()
+            expect(callback).toHaveBeenCalledTimes(1)
+        })
     })
 
     describe('use', () => {
         it('uses a config to set onChange listeners', () => {
-            const { state, reset } = createStore({ foo: true, bar: 5 });
+            const { state, use, clear, reset } = createStore({ foo: true, bar: 5 });
+            const callbacks = {
+                get: jest.fn(),
+                set: jest.fn(),
+                clear: jest.fn(),
+                reset: jest.fn()
+            }
+            
+            use(callbacks)
+
+            state.bar
+            state.foo = false
+            reset()
+            clear()
+
+            Object.keys(callbacks).forEach(key => {
+                expect(callbacks[key]).toHaveBeenCalledTimes(1)
+            })
         })
     })
 });

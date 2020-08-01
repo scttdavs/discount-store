@@ -29,16 +29,16 @@ export const createStore = initialState => {
     }
     setState(initialState)
 
-    const clear = () => {
+    const clear = (skipCallbacks) => {
         Object.keys(state).forEach(key => {
             delete state[key]
         })
-        callbacks.clear.forEach(callback => callback())
+        if (!skipCallbacks) {
+            callbacks.clear.forEach(callback => callback())
+        }
     }
     const reset = () => {
-        Object.keys(state).forEach(key => {
-            delete state[key]
-        })
+        clear(true)
         setState(initialState)
         callbacks.reset.forEach(callback => callback())
     }
@@ -70,7 +70,7 @@ export const createStore = initialState => {
     
 
     const use = config => {
-        ['get', 'set', 'reset'].forEach(eventName => {
+        ['get', 'set', 'reset', 'clear'].forEach(eventName => {
             on(eventName, config[eventName])
         });
     }
