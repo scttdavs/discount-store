@@ -1,13 +1,13 @@
-export const createStore = (initialState: object) => {
-    let state = {};
-    let callbacks: Callbacks = {
+export const createStore = (initialState: Record<string, unknown>) => {
+    const state = {};
+    const callbacks: Callbacks = {
         get: [],
         set: [],
         reset: [],
         clear: []
     };
 
-    const setState = (obj: object) => {
+    const setState = (obj: Record<string, unknown>) => {
         Object.keys(obj).forEach(key => {
             let value = obj[key];
             Object.defineProperty(state, key, {
@@ -49,7 +49,7 @@ export const createStore = (initialState: object) => {
             callbacks[eventName] = callbacks[eventName].filter(cb => cb !== callback)
         }
     };
-    const onChange = (propName: string, callback: (value: any) => {}) => {
+    const onChange = (propName: string, callback: (value: any) => void) => { // eslint-disable-line @typescript-eslint/no-explicit-any
         const unSet = on('set', (key: string, newValue) => {
             if (key === propName) callback(newValue)
         })
