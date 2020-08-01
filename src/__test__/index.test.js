@@ -62,4 +62,15 @@ describe('createStore', () => {
             expect(get('foo')).toBe(4)
         })
     })
+
+    describe('reset', () => {
+        it('resets the store to be an empty object', () => {
+            const { state, reset } = createStore({ foo: true });
+            expect(state.foo).toBeDefined()
+
+            reset()
+            expect(state.foo).toBeUndefined()
+            expect(state).toMatchObject({})
+        })
+    })
 });
