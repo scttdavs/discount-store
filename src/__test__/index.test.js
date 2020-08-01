@@ -6,25 +6,60 @@ describe('createStore', () => {
         expect(state).toBeTruthy()
     })
 
-    it('sets a state property', () => {
-        const { state, onChange } = createStore({ foo: true })
-        expect(state.foo).toBeTruthy()
-
-        state.foo = false
-        
-        expect(state.foo).toBeFalsy()
+    describe('state', () => {
+        it('sets a state property', () => {
+            const { state } = createStore({ foo: true })
+            expect(state.foo).toBeTruthy()
+    
+            state.foo = false
+            
+            expect(state.foo).toBeFalsy()
+        })
     })
 
-    it('calls a callback when the store changes', () => {
-        const { state, onChange } = createStore({ foo: true })
-        expect(state.foo).toBeTruthy()
+    describe('onChange', () => {
+        it('calls a callback when the store changes', () => {
+            const { state, onChange } = createStore({ foo: true })
+            expect(state.foo).toBeTruthy()
+    
+            const callback = jest.fn()
+            onChange('foo', callback)
+    
+            state.foo = false
+            
+            expect(state.foo).toBeFalsy()
+            expect(callback).toHaveBeenCalledTimes(1)
+        })
 
-        const callback = jest.fn()
-        onChange('foo', callback)
+        it('calls a callback when the store changes via set', () => {
+            const { state, onChange, set } = createStore({ foo: true })
+            expect(state.foo).toBeTruthy()
+    
+            const callback = jest.fn()
+            onChange('foo', callback)
+    
+            set('foo', false)
+            
+            expect(state.foo).toBeFalsy()
+            expect(callback).toHaveBeenCalledTimes(1)
+        })
+    })
 
-        state.foo = false
-        
-        expect(state.foo).toBeFalsy()
-        expect(callback).toHaveBeenCalledTimes(1)
+    describe('get', () => {
+        it('gets a value', () => {
+            const { get } = createStore({ foo: true })
+            expect(get('foo')).toBeTruthy()
+        })
+    })
+
+    describe('set', () => {
+        it('sets a value', () => {
+            const { get, set } = createStore({ foo: true })
+            expect(get('foo')).toBeTruthy()
+
+            const value = set('foo', 4)
+            expect(value).toBe(4)
+            expect(get('foo')).toBe(4)
+        })
     })
 });

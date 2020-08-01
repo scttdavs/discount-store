@@ -1,6 +1,7 @@
 export const createStore = obj => {
     const state = {};
     const callbacks = {};
+
     const onChange = (key, callback) => {
         callbacks[key] = callbacks[key] || []
         callbacks[key].push(callback);
@@ -26,7 +27,15 @@ export const createStore = obj => {
         })
     })
 
+    const get = key => state[key]
+    const set = (key, value) => { return state[key] = value }
+
     // TODO dispose, get, set, reset, on
 
-    return { state, onChange };
+    return {
+        state,
+        get,
+        set,
+        onChange
+    };
 }
