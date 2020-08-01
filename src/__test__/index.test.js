@@ -43,6 +43,30 @@ describe('createStore', () => {
             expect(state.foo).toBeFalsy()
             expect(callback).toHaveBeenCalledTimes(1)
         })
+
+        it('calls a callback when the store changes via reset', () => {
+            const { state, onChange, reset } = createStore({ foo: 1 })
+            expect(state.foo).toBe(1)
+    
+            const callback = jest.fn()
+            onChange('foo', callback)
+    
+            reset()
+            
+            expect(callback).toHaveBeenCalledTimes(1)
+        })
+
+        it('calls a callback when the store changes via clear', () => {
+            const { state, onChange, clear } = createStore({ foo: 1 })
+            expect(state.foo).toBe(1)
+    
+            const callback = jest.fn()
+            onChange('foo', callback)
+    
+            clear()
+            
+            expect(callback).toHaveBeenCalledTimes(1)
+        })
     })
 
     describe('get', () => {
@@ -63,14 +87,39 @@ describe('createStore', () => {
         })
     })
 
-    describe('reset', () => {
+    describe('clear', () => {
         it('resets the store to be an empty object', () => {
-            const { state, reset } = createStore({ foo: true });
+            const { state, clear } = createStore({ foo: true });
             expect(state.foo).toBeDefined()
 
-            reset()
+            clear()
             expect(state.foo).toBeUndefined()
             expect(state).toMatchObject({})
+        })
+    })
+
+    describe('reset', () => {
+        it('resets the store to its original state', () => {
+            const { state, reset } = createStore({ foo: true, bar: 5 });
+            expect(state.foo).toBeTruthy()
+            expect(state.bar).toBe(5)
+
+            state.bar = 10
+            state.foo = false
+
+            expect(state.foo).toBeFalsy()
+            expect(state.bar).toBe(10)
+
+            reset()
+
+            expect(state.foo).toBeTruthy()
+            expect(state.bar).toBe(5)
+        })
+    })
+
+    describe('use', () => {
+        it('uses a config to set onChange listeners', () => {
+
         })
     })
 });

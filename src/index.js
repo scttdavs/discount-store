@@ -1,15 +1,10 @@
 export const createStore = initialState => {
     let state = {};
-    const callbacks = {};
-
-    const onChange = (key, callback) => {
-        callbacks[key] = callbacks[key] || []
-        callbacks[key].push(callback);
-
-        // return function to unsubscribe
-        return () => {
-            callbacks[key].filter(cb => cb !== callback)
-        }
+    const callbacks = {
+        get: [],
+        set: [],
+        reset: [],
+        clear: []
     };
 
     const setState = (obj) => {
@@ -22,7 +17,7 @@ export const createStore = initialState => {
                 set(newValue) {
                     if (newValue !== value) {
                         value = newValue;
-                        (callbacks[key] || []).forEach(callback => callback(value))
+                        callbacks.set.forEach(callback => callback(key, value))
                     }
                     return value
                 }
@@ -31,21 +26,48 @@ export const createStore = initialState => {
     }
     setState(initialState)
 
+    const clear = () => {
+        Object.keys(state).forEach(key => {
+            delete state[key]
+        })
+        callbacks.clear.forEach(callback => callback())
+    }
     const reset = () => {
         Object.keys(state).forEach(key => {
             delete state[key]
         })
-    }
-    const dispose = () => {
-        reset()
         setState(initialState)
+        callbacks.reset.forEach(callback => callback())
     }
     const get = key => state[key]
     const set = (key, value) => { return state[key] = value }
+    const on = (eventName, callback) => {
+        callbacks[eventName].push(callback);
+
+        // return function to unsubscribe
+        return () => {
+            callbacks[eventName].filter(cb => cb !== callback)
+        }
+    };
+    const onChange = (propName, callback) => {
+        const unSet = on('set', (key, newValue) => {
+            if (key === propName) callback(newValue)
+        })
+        const unCallback = () => callback(initialState[propName])
+        const unReset = on('reset', unCallback)
+        const unClear = on('clear', unCallback)
+
+        // return function to unsubscribe
+        return () => {
+            unSet();
+            unReset();
+            unClear();
+        }
+    }
+    
 
     const use = config => {
-        const eventNames = Object.keys(config);
-        eventNames.forEach(eventName => {
+        ['get', 'set', 'reset'].forEach(eventName => {
             onChange(eventName, config[eventName])
         });
     }
@@ -53,7 +75,7 @@ export const createStore = initialState => {
     return {
         state,
         reset,
-        dispose,
+        clear,
         get,
         set,
         use,
