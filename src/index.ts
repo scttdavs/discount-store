@@ -1,4 +1,5 @@
 export const createStore = (initialState: Record<string, unknown>) => {
+    let underlyingState = Object.create(initialState);
     const state = {};
     const callbacks: Callbacks = {
         get: [],
@@ -7,38 +8,32 @@ export const createStore = (initialState: Record<string, unknown>) => {
         clear: []
     };
 
-    const setState = (obj: Record<string, unknown>) => {
-        Object.keys(obj).forEach(key => {
-            let value = obj[key];
-            Object.defineProperty(state, key, {
-                enumerable: true,
-                configurable: true,
-                get() {
-                    callbacks.get.forEach(callback => callback(value))
-                    return value
-                },
-                set(newValue) {
-                    if (newValue !== value) {
-                        value = newValue;
-                        callbacks.set.forEach(callback => callback(key, value))
-                    }
-                    return value
+    Object.keys(initialState).forEach(key => {
+        Object.defineProperty(state, key, {
+            enumerable: true,
+            configurable: true,
+            get() {
+                const value = underlyingState[key];
+                callbacks.get.forEach(callback => callback(value))
+                return value
+            },
+            set(newValue) {
+                const value = underlyingState[key];
+                if (newValue !== value) {
+                    underlyingState[key] = newValue;
+                    callbacks.set.forEach(callback => callback(key, newValue))
                 }
-            })
+                return value;
+            }
         })
-    }
-    setState(initialState)
+    })
 
     const clear = () => {
-        const newState = {}
-        Object.keys(state).forEach(key => {
-            newState[key] = undefined
-        })
-        setState(newState)
+        underlyingState = {}
         callbacks.clear.forEach(callback => callback())
     }
     const reset = () => {
-        setState(initialState)
+        underlyingState = Object.create(initialState)
         callbacks.reset.forEach(callback => callback())
     }
     const get = key => state[key]
@@ -73,6 +68,11 @@ export const createStore = (initialState: Record<string, unknown>) => {
             on(eventName, config[eventName])
         });
     }
+
+    // seal the state so that no other attributes can be added
+    // to support IE11, we cannot use Proxy, so we must know
+    // all attributes at execution time
+    Object.seal(state)
 
     return {
         state,

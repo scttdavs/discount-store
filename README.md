@@ -19,6 +19,13 @@ const initialState = {}
 createStore(initialState)
 ```
 
+*NOTE*: Since we observe each field in the store for changes, and we have chosen to support IE11 for now, we cannot use Proxy. Therefore, we must know all the fields that will be defined at the time the store is created. If you try to set a field that did not exist upon creation, it will throw an error.
+
+```js
+const { state } = createStore({ count: 0 })
+state.foo = 'bar' // TypeError: Cannot add property foo, object is not extensible
+```
+
 ### Getting store values
 
 You can get a store value either from the `get` method, or by accessing the field directly from the state object.
@@ -94,8 +101,8 @@ With the `use` method, you can set an event listener for each of the store event
 ```js
 const { use } = createStore({ count: 0 })
 use({
-    get: () => {},
-    set: () => {},
+    get: value => {},
+    set: (key, value) => {},
     reset: () => {},
     clear: () => {}
 })

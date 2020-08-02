@@ -105,6 +105,12 @@ describe('createStore', () => {
             expect(value).toBe(4)
             expect(get('foo')).toBe(4)
         })
+
+        it('throws when trying to set a new field', () => {
+            const { set } = createStore({ foo: true })
+
+            expect(() => set('bar', 1)).toThrow()
+        })
     })
 
     describe('clear', () => {
