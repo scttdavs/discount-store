@@ -15,10 +15,10 @@ export const createStore = (initialState: Record<string, unknown>) => {
         clear: []
     };
 
+    // Proxy all the properties to reference the underlying state
     Object.keys(initialState).forEach(key => {
         Object.defineProperty(state, key, {
             enumerable: true,
-            configurable: true,
             get() {
                 const value = underlyingState[key];
                 callbacks.get.forEach(callback => callback(value))
@@ -82,8 +82,6 @@ export const createStore = (initialState: Record<string, unknown>) => {
         }
     }
     
-    // TODO throw if they try to set a new field
-
     const use: UseMethod = config => {
         if (config.get) on('get', config.get)
         if (config.set) on('set', config.set)
@@ -91,8 +89,8 @@ export const createStore = (initialState: Record<string, unknown>) => {
         if (config.reset) on('reset', config.reset)
     }
 
-    // seal the state so that no other attributes can be added
-    // to support IE11, we cannot use Proxy, so we must know
+    // seal the state so that no other attributes can be added.
+    // Needed for IE11, so we cannot use Proxy, we must know
     // all attributes at execution time
     Object.seal(state)
 
