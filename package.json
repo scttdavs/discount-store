@@ -6,8 +6,9 @@
   "scripts": {
     "test": "npm run build && jest",
     "coveralls": "npm run test -- --coverage && cat ./coverage/lcov.info | coveralls",
-    "lint": "npx eslint . --ext .js,.ts",
-    "build": "rollup -c"
+    "lint": "npm run typecheck && npx eslint . --ext .js,.ts",
+    "build": "rollup -c",
+    "typecheck": "tsc -p ./tsconfig.json"
   },
   "types": "src/@types/index.d.ts",
   "repository": {

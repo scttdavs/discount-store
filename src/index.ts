@@ -4,8 +4,8 @@ export const createStore = (initialState: Record<string, unknown>) => {
     // these are defined so we can cache the old states
     // so we can determine if a value changed.
     // this needs to be done for onChange callbacks
-    let clearedState;
-    let resetState;
+    let clearedState: State | null;
+    let resetState: State | null;
     
     const state: State = {};
     const callbacks: Callbacks = {
@@ -63,13 +63,13 @@ export const createStore = (initialState: Record<string, unknown>) => {
         })
         const unReset = on('reset', () => {
             // only if the value is changing!
-            if (resetState[propName] !== initialState[propName]) {
+            if (resetState && resetState[propName] !== initialState[propName]) {
                 callback(initialState[propName])
             }
         })
         const unClear = on('clear', () => {
             // only if the value is changing!
-            if (clearedState[propName] !== undefined) {
+            if (clearedState && clearedState[propName] !== undefined) {
                 callback(undefined)
             }
         })
