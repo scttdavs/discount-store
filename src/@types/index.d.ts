@@ -15,5 +15,5 @@ type GetMethod = (key: string) => any
 type SetMethod = (key: string, value: any) => any
 type ResetMethod = () => void;
 type ClearMethod = () => void;
-type UseConfig = Record<StoreEvent, Callback>;
+type UseConfig = { [key in StoreEvent]?: Callback };
 type UseMethod = (config: UseConfig) => void

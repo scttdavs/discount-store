@@ -19,13 +19,14 @@ describe('createStore', () => {
 
     describe('onChange', () => {
         it('calls a callback when the store changes', () => {
-            const { state, onChange } = createStore({ foo: true })
+            const { state, onChange } = createStore({ foo: true, bar: 0 })
             expect(state.foo).toBeTruthy()
     
             const callback = jest.fn()
             onChange('foo', callback)
     
             state.foo = false
+            state.bar += 1
             
             expect(state.foo).toBeFalsy()
             expect(callback).toHaveBeenCalledTimes(1)
@@ -275,6 +276,11 @@ describe('createStore', () => {
             expect(callbacks.set).toHaveBeenCalledTimes(1)
             expect(callbacks.clear).toHaveBeenCalledTimes(1)
             expect(callbacks.reset).toHaveBeenCalledTimes(1)
+        })
+
+        it('uses does nothing if some callbacks are missing', () => {
+            const { use } = createStore({ foo: true, bar: 5 });
+            expect(() => use({})).not.toThrow()
         })
     })
 });
