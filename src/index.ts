@@ -1,5 +1,12 @@
 export const createStore = (initialState: Record<string, unknown>) => {
     let underlyingState = Object.create(initialState);
+    
+    // these are defined so we can cache the old states
+    // so we can determine if a value changed.
+    // this needs to be done for onChange callbacks
+    let clearedState;
+    let resetState;
+    
     const state = {};
     const callbacks: Callbacks = {
         get: [],
@@ -29,12 +36,16 @@ export const createStore = (initialState: Record<string, unknown>) => {
     })
 
     const clear = () => {
+        clearedState = underlyingState
         underlyingState = {}
         callbacks.clear.forEach(callback => callback())
+        clearedState = null;
     }
     const reset = () => {
+        resetState = underlyingState
         underlyingState = Object.create(initialState)
         callbacks.reset.forEach(callback => callback())
+        resetState = null;
     }
     const get = key => state[key]
     const set = (key, value) => state[key] = value
@@ -50,8 +61,18 @@ export const createStore = (initialState: Record<string, unknown>) => {
         const unSet = on('set', (key: string, newValue) => {
             if (key === propName) callback(newValue)
         })
-        const unReset = on('reset', () => callback(initialState[propName]))
-        const unClear = on('clear', () => callback(undefined))
+        const unReset = on('reset', () => {
+            // only if the value is changing!
+            if (resetState[propName] !== initialState[propName]) {
+                callback(initialState[propName])
+            }
+        })
+        const unClear = on('clear', () => {
+            // only if the value is changing!
+            if (clearedState[propName] !== undefined) {
+                callback(undefined)
+            }
+        })
 
         // return function to unsubscribe
         return () => {

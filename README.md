@@ -48,7 +48,7 @@ set('count', 5) // 5
 
 ### Listening for state changes to fields
 
-You can subscribe to a field execute a callback any time that field changes using the `onChange` method.
+You can subscribe to a field to execute a callback any time that field changes by using the `onChange` method. This includes when a field is changed from a `reset` or `clear`.
 
 ```js
 const { state, onChange } = createStore({ count: 0 })

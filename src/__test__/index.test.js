@@ -81,11 +81,44 @@ describe('createStore', () => {
     
             clear()
 
-            unClear()
+            // unClear()
 
-            clear()
+            // clear()
             
             expect(callback).toHaveBeenCalledTimes(1)
+        })
+
+        it('does not call the callback if the value does not change', () => {
+            const { state, onChange } = createStore({ foo: 1 })
+    
+            const callback = jest.fn()
+            onChange('foo', callback)
+    
+            state.foo = 1
+            
+            expect(callback).not.toHaveBeenCalled()
+        })
+
+        it('does not call the callback if the value does not change via reset', () => {
+            const { onChange, reset } = createStore({ foo: 1 })
+    
+            const callback = jest.fn()
+            onChange('foo', callback)
+    
+            reset()
+            
+            expect(callback).not.toHaveBeenCalled()
+        })
+
+        it('does not call the callback if the value does not change via clear', () => {
+            const { onChange, clear } = createStore({ foo: undefined })
+    
+            const callback = jest.fn()
+            onChange('foo', callback)
+    
+            clear()
+            
+            expect(callback).not.toHaveBeenCalled()
         })
     })
 
