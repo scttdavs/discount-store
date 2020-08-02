@@ -1,5 +1,5 @@
 {
-  "name": "store-global",
+  "name": "dollarstore",
   "version": "0.0.1",
   "description": "Store data globally in your app. Generic library, no dependencies.",
   "main": "dist/index.js",
