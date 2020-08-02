@@ -1,4 +1,4 @@
-import { createStore } from '../index'
+import { createStore } from '../../dist/index' // eslint-disable-line
 
 describe('createStore', () => {
     it('creates a store', () => {
