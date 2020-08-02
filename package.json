@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "jest",
+    "coveralls": "jest --coverage && cat ./tests/coverage/lcov.info | coveralls",
     "lint": "npx eslint . --ext .js,.ts"
   },
   "types": "src/@types/index.d.ts",
