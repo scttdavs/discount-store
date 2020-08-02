@@ -8,12 +8,12 @@ type Callbacks = {
 }
 
 type State = Record<string, any>
-type StoreEventNames = 'get' | 'set' | 'clear' | 'reset';
-type OnMethod = (eventName: StoreEventNames, callback: Callback) => () => void
+type StoreEvent = 'get' | 'set' | 'clear' | 'reset';
+type OnMethod = (eventName: StoreEvent, callback: Callback) => () => void
 type OnChangeMethod = (propName: string, callback: (value?: any) => void) => () => void
 type GetMethod = (key: string) => any
 type SetMethod = (key: string, value: any) => any
 type ResetMethod = () => void;
 type ClearMethod = () => void;
-type UseConfig = Record<StoreEventNames, Callback>;
+type UseConfig = Record<StoreEvent, Callback>;
 type UseMethod = (config: UseConfig) => void
