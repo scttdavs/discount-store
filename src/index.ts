@@ -30,9 +30,11 @@ export const createStore = (initialState: Record<string, unknown>) => {
     setState(initialState)
 
     const clear = () => {
+        const newState = {}
         Object.keys(state).forEach(key => {
-            delete state[key]
+            newState[key] = undefined
         })
+        setState(newState)
         callbacks.clear.forEach(callback => callback())
     }
     const reset = () => {
@@ -40,7 +42,7 @@ export const createStore = (initialState: Record<string, unknown>) => {
         callbacks.reset.forEach(callback => callback())
     }
     const get = key => state[key]
-    const set = (key, value) => { return state[key] = value }
+    const set = (key, value) => state[key] = value
     const on = (eventName: string, callback) => {
         callbacks[eventName].push(callback);
 
@@ -49,13 +51,12 @@ export const createStore = (initialState: Record<string, unknown>) => {
             callbacks[eventName] = callbacks[eventName].filter(cb => cb !== callback)
         }
     };
-    const onChange = (propName: string, callback: (value: any) => void) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+    const onChange = (propName: string, callback: (value?: any) => void) => { // eslint-disable-line @typescript-eslint/no-explicit-any
         const unSet = on('set', (key: string, newValue) => {
             if (key === propName) callback(newValue)
         })
-        const unCallback = () => callback(initialState[propName])
-        const unReset = on('reset', unCallback)
-        const unClear = on('clear', unCallback)
+        const unReset = on('reset', () => callback(initialState[propName]))
+        const unClear = on('clear', () => callback(undefined))
 
         // return function to unsubscribe
         return () => {

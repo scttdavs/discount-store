@@ -42,11 +42,13 @@ describe('createStore', () => {
             
             expect(state.foo).toBeFalsy()
             expect(callback).toHaveBeenCalledTimes(1)
+            expect(callback).toHaveBeenCalledWith(false)
         })
 
         it('calls a callback when the store changes via reset', () => {
             const { state, onChange, reset } = createStore({ foo: 1 })
-            expect(state.foo).toBe(1)
+            state.foo += 1
+            expect(state.foo).toBe(2)
     
             const callback = jest.fn()
             onChange('foo', callback)
@@ -54,6 +56,7 @@ describe('createStore', () => {
             reset()
             
             expect(callback).toHaveBeenCalledTimes(1)
+            expect(callback).toHaveBeenCalledWith(1)
         })
 
         it('calls a callback when the store changes via clear', () => {
@@ -66,6 +69,7 @@ describe('createStore', () => {
             clear()
             
             expect(callback).toHaveBeenCalledTimes(1)
+            expect(callback).toHaveBeenCalledWith(undefined)
         })
 
         it('returns a function to unsubscribe', () => {
@@ -228,9 +232,10 @@ describe('createStore', () => {
             reset()
             clear()
 
-            Object.keys(callbacks).forEach(key => {
-                expect(callbacks[key]).toHaveBeenCalledTimes(1)
-            })
+            expect(callbacks.get).toHaveBeenCalledTimes(1)
+            expect(callbacks.set).toHaveBeenCalledTimes(1)
+            expect(callbacks.clear).toHaveBeenCalledTimes(1)
+            expect(callbacks.reset).toHaveBeenCalledTimes(1)
         })
     })
 });
