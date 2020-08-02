@@ -7,7 +7,7 @@ export const createStore = (initialState: Record<string, unknown>) => {
     let clearedState;
     let resetState;
     
-    const state = {};
+    const state: State = {};
     const callbacks: Callbacks = {
         get: [],
         set: [],
@@ -35,20 +35,20 @@ export const createStore = (initialState: Record<string, unknown>) => {
         })
     })
 
-    const clear = () => {
+    const clear: ClearMethod = () => {
         clearedState = underlyingState
         underlyingState = {}
         callbacks.clear.forEach(callback => callback())
         clearedState = null;
     }
-    const reset = () => {
+    const reset: ResetMethod = () => {
         resetState = underlyingState
         underlyingState = Object.create(initialState)
         callbacks.reset.forEach(callback => callback())
         resetState = null;
     }
-    const get = key => state[key]
-    const set = (key, value) => state[key] = value
+    const get: GetMethod = key => state[key]
+    const set: SetMethod = (key, value) => state[key] = value
     const on: OnMethod = (eventName, callback) => {
         callbacks[eventName].push(callback);
 
@@ -84,10 +84,11 @@ export const createStore = (initialState: Record<string, unknown>) => {
     
     // TODO throw if they try to set a new field
 
-    const use = config => {
-        ['get', 'set', 'reset', 'clear'].forEach(eventName => {
-            on(eventName, config[eventName])
-        });
+    const use: UseMethod = config => {
+        if (config.get) on('get', config.get)
+        if (config.set) on('set', config.set)
+        if (config.clear) on('clear', config.clear)
+        if (config.reset) on('reset', config.reset)
     }
 
     // seal the state so that no other attributes can be added
