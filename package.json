@@ -26,6 +26,7 @@
   "homepage": "https://github.com/scttdavs/store-global#readme",
   "devDependencies": {
     "@babel/preset-typescript": "^7.10.4",
+    "@types/jest": "^26.0.8",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",
     "babel-jest": "^26.2.2",
