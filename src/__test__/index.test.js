@@ -81,9 +81,9 @@ describe('createStore', () => {
     
             clear()
 
-            // unClear()
+            unClear()
 
-            // clear()
+            clear()
             
             expect(callback).toHaveBeenCalledTimes(1)
         })

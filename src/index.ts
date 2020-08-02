@@ -49,7 +49,7 @@ export const createStore = (initialState: Record<string, unknown>) => {
     }
     const get = key => state[key]
     const set = (key, value) => state[key] = value
-    const on = (eventName: string, callback) => {
+    const on: OnMethod = (eventName, callback) => {
         callbacks[eventName].push(callback);
 
         // return function to unsubscribe
@@ -57,7 +57,7 @@ export const createStore = (initialState: Record<string, unknown>) => {
             callbacks[eventName] = callbacks[eventName].filter(cb => cb !== callback)
         }
     };
-    const onChange = (propName: string, callback: (value?: any) => void) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+    const onChange: OnChangeMethod = (propName, callback) => {
         const unSet = on('set', (key: string, newValue) => {
             if (key === propName) callback(newValue)
         })

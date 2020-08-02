@@ -5,3 +5,6 @@ type Callbacks = {
     clear: { (): any; } [],
     reset: { (): any; } []
 }
+
+type OnMethod = (eventName: string, callback: (...any) => void) => () => void
+type OnChangeMethod = (propName: string, callback: (value?: any) => void) => void
