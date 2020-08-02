@@ -1,4 +1,8 @@
 # Dollar store
+
+[![Build Status](https://travis-ci.org/scttdavs/dollar-store.svg?branch=master)](https://travis-ci.org/scttdavs/dollar-store)
+[![Coverage Status](https://coveralls.io/repos/github/scttdavs/dollar-store/badge.svg?branch=master)](https://coveralls.io/github/scttdavs/dollar-store?branch=master)
+
 Store data globally in your app. Generic library, no dependencies.
 
 ## Installation
