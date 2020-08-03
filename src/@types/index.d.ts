@@ -17,3 +17,14 @@ type ResetMethod = () => void;
 type ClearMethod = () => void;
 type UseConfig = { [key in StoreEvent]?: Callback };
 type UseMethod = (config: UseConfig) => void
+type StoreMethods = {
+    state: State,
+    on: OnMethod,
+    onChange: OnChangeMethod,
+    get: GetMethod,
+    set: SetMethod,
+    reset: ResetMethod,
+    clear: ClearMethod,
+    use: UseMethod
+}
+type CreateStore = (state: State) => StoreMethods

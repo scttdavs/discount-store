@@ -1,4 +1,4 @@
-export const createStore = (initialState: Record<string, unknown>) => {
+export const createStore: CreateStore = (initialState: Record<string, unknown>) => {
     let underlyingState = Object.create(initialState);
     
     // these are defined so we can cache the old states
