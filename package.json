@@ -13,9 +13,9 @@
   },
   "files": [
     "dist/**/*",
-    "src/@types/index.d.ts"
+    "index.d.ts"
   ],
-  "types": "src/@types/index.d.ts",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/scttdavs/store-global.git"
