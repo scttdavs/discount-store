@@ -12,10 +12,9 @@
     "typecheck": "tsc -p ./tsconfig.json"
   },
   "files": [
-    "dist/**/*",
-    "index.d.ts"
+    "dist/**/*"
   ],
-  "types": "index.d.ts",
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/scttdavs/store-global.git"
@@ -47,6 +46,7 @@
     "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-uglify": "^6.0.4",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "typings": "^2.1.1"
   }
 }
