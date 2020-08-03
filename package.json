@@ -17,7 +17,7 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scttdavs/store-global.git"
+    "url": "git+https://github.com/scttdavs/discount-store.git"
   },
   "keywords": [
     "store",
@@ -28,9 +28,9 @@
   "author": "Scott Davis",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/scttdavs/store-global/issues"
+    "url": "https://github.com/scttdavs/discount-store/issues"
   },
-  "homepage": "https://github.com/scttdavs/store-global#readme",
+  "homepage": "https://github.com/scttdavs/discount-store#readme",
   "devDependencies": {
     "@babel/preset-typescript": "^7.10.4",
     "@types/jest": "^26.0.8",
