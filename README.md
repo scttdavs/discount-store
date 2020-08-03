@@ -1,4 +1,4 @@
-# discount store
+# Discount store
 
 [![Build Status](https://travis-ci.org/scttdavs/discount-store.svg?branch=master)](https://travis-ci.org/scttdavs/discount-store)
 [![Coverage Status](https://coveralls.io/repos/github/scttdavs/discount-store/badge.svg?branch=master)](https://coveralls.io/github/scttdavs/discount-store?branch=master)
