@@ -7,9 +7,9 @@
     "prepublishOnly": "npm run test",
     "test": "npm run build && jest dist.test.ts",
     "coveralls": "jest --coverage src.test.ts && cat ./coverage/lcov.info | coveralls",
-    "lint": "npm run typecheck && npx eslint . --ext .js,.ts",
-    "build": "rollup -c",
-    "typecheck": "tsc -p ./tsconfig.json"
+    "lint": "npm run typecheck",
+    "build": "npx tsc",
+    "typecheck": "npx tsc -p ./tsconfig.json"
   },
   "files": [
     "dist/**/*"
@@ -34,18 +34,10 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.10.4",
     "@types/jest": "^26.0.8",
-    "@typescript-eslint/eslint-plugin": "^3.7.1",
-    "@typescript-eslint/parser": "^3.7.1",
     "babel-jest": "^26.2.2",
     "babel-preset-env": "^1.7.0",
     "coveralls": "^3.1.0",
-    "eslint": "^7.6.0",
-    "eslint-plugin-jest": "^23.20.0",
     "jest": "^26.2.2",
-    "rollup": "^2.23.0",
-    "rollup-plugin-typescript": "^1.0.1",
-    "rollup-plugin-uglify": "^6.0.4",
-    "tslib": "^2.0.0",
     "typescript": "^3.9.7",
     "typings": "^2.1.1"
   }
