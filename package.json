@@ -4,13 +4,13 @@
   "description": "Store data globally in your app. Generic library, no dependencies.",
   "main": "dist/index.js",
   "scripts": {
+    "prepublishOnly": "npm run test",
     "test": "npm run build && jest dist.test.ts",
     "coveralls": "jest --coverage src.test.ts && cat ./coverage/lcov.info | coveralls",
     "lint": "npm run typecheck && npx eslint . --ext .js,.ts",
     "build": "rollup -c",
     "typecheck": "tsc -p ./tsconfig.json"
   },
-  "prepublishOnly": "npm run test",
   "files": [
     "dist/**/*",
     "src/@types/index.d.ts"
