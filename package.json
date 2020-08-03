@@ -1,6 +1,6 @@
 {
   "name": "discount-store",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Store data globally in your app. Generic library, no dependencies.",
   "main": "dist/index.js",
   "scripts": {
