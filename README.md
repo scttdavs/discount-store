@@ -1,18 +1,18 @@
 # Convenience store
 
-[![Build Status](https://travis-ci.org/scttdavs/dollar-store.svg?branch=master)](https://travis-ci.org/scttdavs/dollar-store)
-[![Coverage Status](https://coveralls.io/repos/github/scttdavs/dollar-store/badge.svg?branch=master)](https://coveralls.io/github/scttdavs/dollar-store?branch=master)
+[![Build Status](https://travis-ci.org/scttdavs/convenience-store.svg?branch=master)](https://travis-ci.org/scttdavs/convenience-store)
+[![Coverage Status](https://coveralls.io/repos/github/scttdavs/convenience-store/badge.svg?branch=master)](https://coveralls.io/github/scttdavs/convenience-store?branch=master)
 
 Store data globally in your app. Generic library, no dependencies.
 
 ## Installation
 
 ```sh
-npm install dollarstore
+npm install convenience-store
 ```
 
 ```js
-import { createStore } from 'dollarstore'
+import { createStore } from 'convenience-store'
 ```
 
 ## Usage
