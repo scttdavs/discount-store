@@ -4,7 +4,7 @@ import { uglify } from "rollup-plugin-uglify";
 export default {
   input: './src/index.ts',
   output: {
-    name: 'convenience-store',
+    name: 'discount-store',
     file: 'dist/index.js',
     format: 'umd'
   },
