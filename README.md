@@ -123,6 +123,10 @@ clear()
 state.count // undefined
 ```
 
+## Inspiration
+
+This package's API is mostly inspired by [@stencil/store](https://github.com/ionic-team/stencil-store) with a few exceptions. I've excluded `dispose`, added `clear`, removed any peer dependencies, and kept support for IE11. Their API is simple and great, but I wanted an option for a store that was not tied to any framework or library (Stencil, Svelte, React, Redux) or design pattern (Flux).
+
 ### Reseting the store
 
 Reseting the store resets the state back to what it was initially created with.
