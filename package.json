@@ -12,7 +12,8 @@
     "typecheck": "npx tsc -p ./tsconfig.json"
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "README.md"
   ],
   "types": "dist/index.d.ts",
   "repository": {
