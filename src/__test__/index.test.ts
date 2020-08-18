@@ -87,6 +87,25 @@ export default (createStore: CreateStore) => {
                 
                 expect(callback).toHaveBeenCalledTimes(1)
             })
+
+            it('only unsubscribes from a single event, with same callback as other events', () => {
+                const { state, onChange } = createStore({ foo: 1 })
+                expect(state.foo).toBe(1)
+        
+                const callback = jest.fn()
+                const unClear = onChange('foo', callback)
+                onChange('foo', callback)
+        
+                state.foo += 1
+
+                expect(callback).toHaveBeenCalledTimes(2)
+    
+                unClear()
+    
+                state.foo += 1
+                
+                expect(callback).toHaveBeenCalledTimes(3)
+            })
     
             it('does not call the callback if the value does not change', () => {
                 const { state, onChange } = createStore({ foo: 1 })

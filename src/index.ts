@@ -81,11 +81,12 @@ export const createStore: CreateStore = (initialState: Record<string, unknown>) 
     const get: GetMethod = key => state[key]
     const set: SetMethod = (key, value) => state[key] = value
     const on: OnMethod = (eventName, callback) => {
-        callbacks[eventName].push(callback);
+        const uniqueCallback: Callback = (...args) => callback(...args)
+        callbacks[eventName].push(uniqueCallback);
 
         // return function to unsubscribe
         return () => {
-            callbacks[eventName] = callbacks[eventName].filter(cb => cb !== callback)
+            callbacks[eventName] = callbacks[eventName].filter(cb => cb !== uniqueCallback)
         }
     };
     const onChange: OnChangeMethod = (propName, callback) => {
